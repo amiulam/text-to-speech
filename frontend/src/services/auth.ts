@@ -57,7 +57,7 @@ export const logout = async (): Promise<void> => {
 
   if (!response.ok) {
     if (response.status === 401) {
-      // handleUnauthorized();
+      handleUnauthorized();
       return;
     }
     throw new Error("Logout gagal");
@@ -66,10 +66,9 @@ export const logout = async (): Promise<void> => {
   cookies.remove("accessToken", { path: "/" });
 };
 
-// const handleUnauthorized = () => {
-//   const cookies = new Cookies();
-//   cookies.remove("accessToken", { path: "/" });
-//   window.location.href = "/login";
-// };
+const handleUnauthorized = () => {
+  const cookies = new Cookies();
+  cookies.remove("accessToken", { path: "/" });
+};
 
-// export { handleUnauthorized };
+export { handleUnauthorized };
