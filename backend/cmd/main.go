@@ -49,7 +49,7 @@ func main() {
 	log.Println("Database migrated successfully")
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173", "https://text-to-speech-alpha-green.vercel.app"},
+		AllowOrigins:     []string{"http://localhost:5173", "https://text-to-speech-amiulam.vercel.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
