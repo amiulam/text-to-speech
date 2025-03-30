@@ -49,12 +49,12 @@ func main() {
 	log.Println("Database migrated successfully")
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173"}, // Izinkan origin frontend
+		AllowOrigins:     []string{"http://localhost:5173"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
-		MaxAge:           12 * 60 * 60, // Cache preflight request selama 12 jam
+		MaxAge:           12 * 60 * 60,
 	}))
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
