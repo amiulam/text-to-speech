@@ -3,4 +3,4 @@ service:
   secretJWT: "yoursecret"
 
 database:
-  dataSourceName: "postgres://username:password@host:5432/music_catalog?sslmode=disable"
+  dataSourceName: "postgres://username:password@host:5432/text_speech?sslmode=disable"
