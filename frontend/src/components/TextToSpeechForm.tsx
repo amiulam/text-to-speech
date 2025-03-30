@@ -13,15 +13,12 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Pause, Play, Save, Square } from "lucide-react";
 import type { VoiceSettings } from "@/types";
-import { logout } from "@/services/auth";
-import { useNavigate } from "react-router";
 
 type TextToSpeechFormProps = {
   onSave: (text: string, voiceName: string, settings: VoiceSettings) => void;
 };
 
 export function TextToSpeechForm({ onSave }: TextToSpeechFormProps) {
-  const navigate = useNavigate();
   const [text, setText] = useState("");
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [selectedVoice, setSelectedVoice] = useState("");
@@ -164,12 +161,12 @@ export function TextToSpeechForm({ onSave }: TextToSpeechFormProps) {
           </div>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button onClick={handlePlay} disabled={!text}>
             {isPlaying ? (
-              <Pause className="mr-2 size-4" />
+              <Pause />
             ) : (
-              <Play className="mr-2 size-4" />
+              <Play />
             )}
             {isPlaying ? "Pause" : "Play"}
           </Button>
@@ -178,21 +175,12 @@ export function TextToSpeechForm({ onSave }: TextToSpeechFormProps) {
             disabled={!isPlaying}
             variant="secondary"
           >
-            <Square className="mr-2 size-4" />
+            <Square />
             Stop
           </Button>
           <Button onClick={handleSave} disabled={!text} variant="outline">
-            <Save className="mr-2 size-4" />
+            <Save />
             Save
-          </Button>
-          <Button
-            onClick={async () => {
-              await logout();
-              navigate("/login");
-            }}
-            variant="outline"
-          >
-            Logout
           </Button>
         </div>
       </CardContent>

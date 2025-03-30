@@ -5,6 +5,9 @@ import { ConversionHistoryList } from "@/components/ConversionHistory";
 import type { ConversionHistory, VoiceSettings } from "@/types";
 import { getConversions, saveConversion } from "@/services/api";
 import { useNavigate } from "react-router";
+import { Button } from "@/components/ui/button";
+import { logout } from "@/services/auth";
+import { LogOut } from "lucide-react";
 
 export default function HomePage() {
   const cookies = new Cookies();
@@ -78,6 +81,18 @@ export default function HomePage() {
         <div className="grid gap-8 md:grid-cols-2">
           <TextToSpeechForm onSave={handleSave} />
           <ConversionHistoryList history={history} onReplay={handleReplay} />
+        </div>
+        <div className="flex justify-end w-full">
+          <Button
+            onClick={async () => {
+              await logout();
+              navigate("/login");
+            }}
+            variant="outline"
+          >
+            <LogOut />
+            Logout
+          </Button>
         </div>
       </div>
     </div>
