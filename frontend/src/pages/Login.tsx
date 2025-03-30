@@ -24,9 +24,9 @@ export default function LoginPage() {
 
     try {
       await login(formData);
-      toast.success("Login berhasil!");
+      toast.success("You're logged in!");
     } catch (error) {
-      toast.error("Login gagal. Silakan coba lagi.");
+      toast.error("Login failed. Try again.");
     } finally {
       setIsLoading(false);
     }
@@ -51,7 +51,7 @@ export default function LoginPage() {
               <Input
                 id="email"
                 type="email"
-                placeholder="Masukkan email Anda"
+                placeholder="johndoe@mail.com"
                 autoComplete="email"
                 value={formData.email}
                 onChange={(e) =>
@@ -65,7 +65,7 @@ export default function LoginPage() {
               <Input
                 id="password"
                 type="password"
-                placeholder="Masukkan password Anda"
+                placeholder="********"
                 autoComplete="password"
                 value={formData.password}
                 onChange={(e) =>
@@ -75,7 +75,7 @@ export default function LoginPage() {
               />
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Memproses..." : "Login"}
+              {isLoading ? "Processing..." : "Login"}
             </Button>
           </form>
         </CardContent>
