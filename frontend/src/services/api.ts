@@ -1,7 +1,8 @@
 import type { ConversionHistory, VoiceSettings } from "@/types";
 import Cookies from "universal-cookie";
+import { handleUnauthorized } from "./auth";
 
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 type ConversionData = {
   id: string;
@@ -38,6 +39,10 @@ export const saveConversion = async (
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      handleUnauthorized();
+      throw new Error("Unauthorized");
+    }
     throw new Error("Failed to save conversion");
   }
 
@@ -66,6 +71,10 @@ export const getConversions = async (): Promise<ConversionHistory[]> => {
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      handleUnauthorized();
+      throw new Error("Unauthorized");
+    }
     throw new Error("Failed to fetch conversions");
   }
 

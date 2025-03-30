@@ -1,6 +1,6 @@
 import Cookies from "universal-cookie";
 
-const API_BASE_URL = "http://localhost:8080/memberships";
+const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/memberships`;
 
 export type SignupData = {
   email: string;
@@ -50,14 +50,26 @@ export const logout = async (): Promise<void> => {
   const response = await fetch(`${API_BASE_URL}/logout`, {
     method: "POST",
     headers: {
-      Authorization: `${accessToken}`
+      Authorization: `${accessToken}`,
     },
     credentials: "include",
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      handleUnauthorized();
+      return;
+    }
     throw new Error("Logout gagal");
   }
 
   cookies.remove("accessToken", { path: "/" });
 };
+
+const handleUnauthorized = () => {
+  const cookies = new Cookies();
+  cookies.remove("accessToken", { path: "/" });
+  window.location.href = "/login";
+};
+
+export { handleUnauthorized };
