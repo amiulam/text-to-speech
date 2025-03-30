@@ -31,7 +31,7 @@ export function TextToSpeechForm({ onSave }: TextToSpeechFormProps) {
     volume: 1,
   });
   const [isPlaying, setIsPlaying] = useState(false);
-  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
+  const [_utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
     null
   );
 

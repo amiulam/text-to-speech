@@ -12,7 +12,7 @@ export default function HomePage() {
   const accessToken = cookies.get("accessToken");
   const [history, setHistory] = useState<ConversionHistory[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [_isLoading, setIsLoading] = useState(true);
   const handleSave = async (
     text: string,
     voiceName: string,
