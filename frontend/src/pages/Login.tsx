@@ -7,6 +7,7 @@ import { login } from "@/services/auth";
 import { toast } from "sonner";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router";
+import { AudioLines } from "lucide-react";
 
 export default function LoginPage() {
   const cookies = new Cookies();
@@ -39,10 +40,15 @@ export default function LoginPage() {
   }, [accessToken, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+      <div className="absolute inset-0 -z-10 h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]" />
+      <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Login</CardTitle>
+          <CardTitle className="text-2xl">
+            <div className="flex justify-center gap-x-2 items-center">
+              <AudioLines /> <span>Login</span>
+            </div>
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">

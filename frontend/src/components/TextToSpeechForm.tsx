@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +11,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pause, Play, Save, Square } from "lucide-react";
+import { MessageCircleDashed, Pause, Play, Save, Square } from "lucide-react";
 import type { VoiceSettings } from "@/types";
 
 type TextToSpeechFormProps = {
@@ -28,35 +28,28 @@ export function TextToSpeechForm({ onSave }: TextToSpeechFormProps) {
     volume: 1,
   });
   const [isPlaying, setIsPlaying] = useState(false);
-  const [_utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
+  const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
     null
   );
 
+  const loadVoices = useCallback(() => {
+    const availableVoices = window.speechSynthesis.getVoices();
+    setVoices(availableVoices);
+    if (availableVoices.length > 0) {
+      setSelectedVoice(availableVoices[0].name);
+    }
+  }, []);
+
   useEffect(() => {
-    const loadVoices = () => {
-      const availableVoices = window.speechSynthesis.getVoices();
-
-      setVoices(availableVoices);
-      if (availableVoices.length > 0) {
-        setSelectedVoice(availableVoices[0].name);
-      }
-    };
-
     loadVoices();
     window.speechSynthesis.onvoiceschanged = loadVoices;
 
     return () => {
       window.speechSynthesis.onvoiceschanged = null;
     };
-  }, []);
+  }, [loadVoices]);
 
-  const handlePlay = () => {
-    if (isPlaying) {
-      window.speechSynthesis.pause();
-      setIsPlaying(false);
-      return;
-    }
-
+  const createUtterance = useCallback(() => {
     const newUtterance = new SpeechSynthesisUtterance(text);
     const voice = voices.find((v) => v.name === selectedVoice);
 
@@ -71,27 +64,49 @@ export function TextToSpeechForm({ onSave }: TextToSpeechFormProps) {
         setUtterance(null);
       };
 
-      setUtterance(newUtterance);
-      speechSynthesis.speak(newUtterance);
-      setIsPlaying(true);
+      return newUtterance;
     }
-  };
+    return null;
+  }, [text, voices, selectedVoice, settings]);
 
-  const handleStop = () => {
+  const handlePlay = useCallback(() => {
+    if (isPlaying) {
+      window.speechSynthesis.pause();
+      setIsPlaying(false);
+      return;
+    }
+
+    if (utterance) {
+      window.speechSynthesis.resume();
+      setIsPlaying(true);
+    } else {
+      const newUtterance = createUtterance();
+      if (newUtterance) {
+        setUtterance(newUtterance);
+        window.speechSynthesis.speak(newUtterance);
+        setIsPlaying(true);
+      }
+    }
+  }, [isPlaying, utterance, createUtterance]);
+
+  const handleStop = useCallback(() => {
     window.speechSynthesis.cancel();
     setIsPlaying(false);
     setUtterance(null);
-  };
+  }, []);
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     onSave(text, selectedVoice, settings);
     setText("");
-  };
+  }, [onSave, text, selectedVoice, settings]);
 
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader>
-        <CardTitle>Insert Text to Convert</CardTitle>
+        <CardTitle className="flex items-center gap-x-2">
+          <MessageCircleDashed className="size-5" />
+          Insert Text to Convert
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
@@ -163,11 +178,7 @@ export function TextToSpeechForm({ onSave }: TextToSpeechFormProps) {
 
         <div className="flex gap-2 flex-wrap">
           <Button onClick={handlePlay} disabled={!text}>
-            {isPlaying ? (
-              <Pause />
-            ) : (
-              <Play />
-            )}
+            {isPlaying ? <Pause /> : <Play />}
             {isPlaying ? "Pause" : "Play"}
           </Button>
           <Button
