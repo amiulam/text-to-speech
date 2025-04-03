@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { logout } from "@/services/auth";
 import { AudioLines, LogOut } from "lucide-react";
+import { toast } from "sonner";
 
 export default function HomePage() {
   const cookies = new Cookies();
@@ -31,6 +32,7 @@ export default function HomePage() {
           history: [newConversion, ...prev.history],
           error: null,
         }));
+        toast.success("Conversion record saved successfully!");
       } catch (err) {
         setState((prev) => ({
           ...prev,
