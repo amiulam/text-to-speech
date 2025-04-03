@@ -102,11 +102,13 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-screen p-8">
       <div className="mx-auto max-w-6xl space-y-8">
         <div className="flex justify-center items-center mb-8 gap-x-2">
-          <AudioLines className="size-8" />
-          <h1 className="text-4xl font-bold">Text to Speech Converter</h1>
+          <AudioLines className="size-8 text-orange-400" />
+          <h1 className="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-4xl font-extrabold text-transparent">
+            Text to Speech Converter
+          </h1>
         </div>
 
         {error && (
