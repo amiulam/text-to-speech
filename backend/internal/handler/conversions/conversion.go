@@ -12,18 +12,14 @@ func (h *Handler) SaveConversion(c *gin.Context) {
 	var request conversions.ConversionRequest
 
 	if err := c.ShouldBindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		helpers.SendResponseHTTP(c, http.StatusBadRequest, err.Error(), nil)
 		return
 	}
 
 	result, err := h.conversionSvc.SaveConversion(request)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		helpers.SendResponseHTTP(c, http.StatusBadRequest, err.Error(), nil)
 		return
 	}
 
@@ -33,9 +29,7 @@ func (h *Handler) SaveConversion(c *gin.Context) {
 func (h *Handler) GetAllConversion(c *gin.Context) {
 	result, err := h.conversionSvc.GetConversions()
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		helpers.SendResponseHTTP(c, http.StatusBadRequest, err.Error(), nil)
 		return
 	}
 

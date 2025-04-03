@@ -12,18 +12,14 @@ func (h *Handler) Login(c *gin.Context) {
 	var request memberships.LoginRequest
 
 	if err := c.ShouldBindJSON(&request); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		helpers.SendResponseHTTP(c, http.StatusBadRequest, err.Error(), nil)
 		return
 	}
 
 	accessToken, err := h.membershipSvc.Login(request)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		helpers.SendResponseHTTP(c, http.StatusBadRequest, err.Error(), nil)
 		return
 	}
 

@@ -9,7 +9,6 @@ A web-based text-to-speech converter application built with React and Go.
 - **Vite**: For development server speed and modern build tooling compared to Create React App.
 - **Shadcn/ui (Tailwind CSS)**: 
   - Ensures consistent styling and responsiveness
-  - Trade-off: Slightly larger bundle size but better maintainability
 
 ### Backend
 - **Gin Framework**: High performance and middleware support, though it has a steeper learning curve than simpler frameworks.
@@ -37,7 +36,7 @@ A web-based text-to-speech converter application built with React and Go.
 
 ## System Requirements
 
-- Node.js (latest version)
+- Node.js 20 or higher
 - Go 1.23 or higher
 - PostgreSQL
 
@@ -52,12 +51,12 @@ cd frontend
 
 2. Install dependencies:
 ```bash
-npm install
+pnpm install
 ```
 
 3. Run the application in development mode:
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 The frontend application will run at `http://localhost:5173`
